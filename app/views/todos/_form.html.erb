@@ -1,0 +1,21 @@
+<%= form_for(@todo) do |f| %>
+  
+
+    <div class="field form-group">
+    <%= f.label :title, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.text_field :title, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="field form-group">
+    <%= f.label :notes, class: 'col-sm-2 control-label' %>
+    <div class="col-sm-10">
+      <%= f.text_area :notes, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="actions form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit %>
+    </div>
+  </div>
+<% end %>
