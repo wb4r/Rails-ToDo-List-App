@@ -1,96 +1,90 @@
 
 <br>
-<ul class="nav nav-tabs" role="tablist">
-  <li class="active"><%= link_to 'View list', todos_path %></li>
-  <li><%= link_to 'New todo', new_todo_path %></li>
-</ul>
+<% if logged_in? %>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><%= link_to 'View list', todos_path %></li>
+    <li><%= link_to 'New ToDo', new_todo_path %></li>
+  </ul>
+<% else %>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><%= link_to 'View list', todos_path %></li>
+    <li><%= link_to 'New ToDo' %></li>
+  </ul>
+<% end %>
 
 <br><br><br>
-<p id="notice"><%= notice %></p>
 
 <h1>myToDos</h1>
 
 <br><br>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Notes</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @todos.each do |todo| %>
+<% if logged_in? %>
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <td>
-          <span class="has-tooltip" data-toggle="tooltip" title="<%= "Created on #{todo.created_at.strftime("%m/%e/%Y at %w:%M %p")}, Last modified on #{todo.updated_at.strftime("%m/%e/%Y at %w:%M %p")}" %>">
-            <%= todo.title %>
-          </span>
-        </td>
-
-                <% if todo.notes? %>
-                  <!-- Button trigger modal -->
-                  <td class="btn-xs btn-link" data-toggle="modal" data-target="#todo-<%= todo.id %>-notes">
-                    View notes
-                  </td>
-
-                  <!-- Modal -->
-                  <div class="modal fade" id="todo-<%= todo.id %>-notes" tabindex="-1" role="dialog" aria-labelledby="todo-<%= todo.id %>-label" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="todo-<%= todo.id %>-label">Notes</h4>
-                        </div>
-                        <div class="modal-body">
-                          <%= todo.notes %>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                <% else %>
-                  <!-- Button trigger modal -->
-                  <td>---</td>
-                <% end %>
-        <td><%= link_to 'Show', todo, class: 'btn btn-primary btn-xs' %></td>
-        <td><%= link_to 'Edit', edit_todo_path(todo), class: 'btn btn-info btn-xs' %></td>
-        <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+        <th>Title</th>
+        <th>Notes</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to new_todo_path, class: 'btn btn-success' do %>
-  <i class="glyphicon glyphicon-plus"></i> New Todo
+    </thead>
+    <tbody>      
+      <% current_user.todos.each do |todo| %>
+        <tr>
+          <td>
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= "Created on #{todo.created_at.strftime("%m/%e/%Y at %w:%M %p")}, Last modified on #{todo.updated_at.strftime("%m/%e/%Y at %w:%M %p")}" %>">
+              <%= todo.title %>
+            </span>
+          </td>
+          <% if todo.notes? %>
+            <!-- Button trigger modal -->
+            <td class="btn-xs btn-link" data-toggle="modal" data-target="#todo-<%= todo.id %>-notes">
+              View notes
+            </td>
+            <!-- Modal -->
+            <div class="modal fade" id="todo-<%= todo.id %>-notes" tabindex="-1" role="dialog" aria-labelledby="todo-<%= todo.id %>-label" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="todo-<%= todo.id %>-label">Notes</h4>
+                  </div>
+                  <div class="modal-body">
+                    <%= todo.notes %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <!-- Button trigger modal -->
+            <td>---</td>
+          <% end %>
+          <td><%= link_to 'Show', todo, class: 'btn btn-primary btn-xs' %></td>
+          <td><%= link_to 'Edit', edit_todo_path(todo), class: 'btn btn-info btn-xs' %></td>
+          <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %></td>
+        </tr>
+      <% end %>    
+    </tbody>
+  </table>
+<% else %>
+  <div class="well">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
 <% end %>
-
+<br>
+<% if logged_in? %>
+  <%= link_to new_todo_path, class: 'btn btn-success' do %>
+    <i class="glyphicon glyphicon-plus"></i> New ToDo
+  <% end %>
+<% else %>
+  <%= link_to '/register', class: 'btn btn-primary' do %>
+    <i class="glyphicon glyphicon-log-in"></i> Register
+  <% end %>
+<% end %>
 <br><br><br><br><br><br><br>
-
-<form role="form" class="form-horizontal">
-  <div class="form-group">
-    <label for="username" class="col-sm-2 control-label">Username</label>
-    <div class="col-sm-10">
-      <input type="text" id="username" name="username" class="form-control" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="password" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" id="password" name="password" class="form-control" />
-    </div>
-  </div>
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <input type="submit" value="Login" />
-      <input type="button" value="Cancel" />
-    </div>
-  </div>
-</form>
-

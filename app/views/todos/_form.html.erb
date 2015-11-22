@@ -1,21 +1,23 @@
 <%= form_for(@todo) do |f| %>
   
 
-    <div class="field form-group">
+  <div class="field form-group">
     <%= f.label :title, class: 'col-sm-2 control-label' %>
-    <div class="col-sm-10">
+    <div class="col-sm-7">
       <%= f.text_field :title, class: 'form-control' %>
     </div>
   </div>
+  <br><br><br>
   <div class="field form-group">
     <%= f.label :notes, class: 'col-sm-2 control-label' %>
-    <div class="col-sm-10">
-      <%= f.text_area :notes, class: 'form-control' %>
+    <div class="col-sm-7">
+      <%= f.text_area :notes, rows: 6, class: 'form-control' %>
     </div>
   </div>
+  <br><br><br><br><br><br><br><br>
   <div class="actions form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit %>
+      <%= f.submit "Create ToDo", class: "btn btn-success btn-xs" %>
     </div>
   </div>
 <% end %>

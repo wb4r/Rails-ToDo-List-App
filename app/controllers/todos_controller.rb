@@ -25,9 +25,13 @@ class TodosController < ApplicationController
   # POST /todos.json
   def create
     @todo = Todo.new(todo_params)
+    # binding.pry
+    @todo.user_id = current_user.id
 
     respond_to do |format|
       if @todo.save
+        # @todo.user_id = current_user.id
+
         flash[:success] = 'ToDo was successfully created.'
         # redirect_to todos_url
         format.html { redirect_to todos_url }
